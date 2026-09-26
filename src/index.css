@@ -173,12 +173,6 @@ img {
   gap: 1.5rem;
 }
 
-.grid-4 {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-}
-
 @property --angle {
   syntax: '<angle>';
   initial-value: 0deg;
@@ -201,11 +195,6 @@ img {
 
   .grid-auto-320 {
     grid-template-columns: 1fr;
-  }
-
-  .grid-4 {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
   }
 
   .social-sidebar {
@@ -232,10 +221,5 @@ img {
 
   .grid-2 {
     gap: 1.5rem;
-  }
-
-  .grid-4 {
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
   }
 }

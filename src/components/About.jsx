@@ -1,61 +1,12 @@
-import { useState, useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import data from '../data'
 import TextReveal from './TextReveal'
-
-function useCountUp(target, isInView) {
-  const [count, setCount] = useState(0)
-
-  useEffect(() => {
-    if (!isInView) return
-    let current = 0
-    const duration = 2000
-    const steps = 60
-    const increment = target / steps
-    let step = 0
-
-    const timer = setInterval(() => {
-      step++
-      current = Math.min(target, Math.round(increment * step))
-      setCount(current)
-      if (current >= target) clearInterval(timer)
-    }, duration / steps)
-
-    return () => clearInterval(timer)
-  }, [isInView, target])
-
-  return count
-}
-
-function StatItem({ value, label, isInView }) {
-  const numericMatch = value.match(/[\d.]+/g)
-  const numeric = numericMatch ? parseFloat(numericMatch[0]) : 0
-  const suffix = value.includes('K+') ? 'K+' : value.includes('+') ? '+' : ''
-
-  const actualTarget = suffix.includes('K') ? numeric * 1000 : numeric
-  const count = useCountUp(actualTarget, isInView)
-
-  const display = suffix.includes('K')
-    ? Math.round(count / 100) / 10 + 'K+'
-    : suffix === '+'
-      ? count + '+'
-      : count
-
-  return (
-    <div style={{ textAlign: 'center' }}>
-      <div style={{ fontSize: '2.2rem', fontWeight: 900, marginBottom: '0.3rem' }}>
-        <span className="gradient-text">{display}</span>
-      </div>
-      <div style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>{label}</div>
-    </div>
-  )
-}
 
 export default function About() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const { initials, aboutParagraph1, aboutParagraph2, aboutTags } = data.personal
-  const stats = data.stats
 
   return (
     <section id="about" className="section-padding" style={{ position: 'relative' }}>
@@ -197,29 +148,6 @@ export default function About() {
             </div>
           </motion.div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="grid-4"
-          style={{
-            marginTop: '5rem',
-            padding: '2.5rem',
-            borderRadius: 20,
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.05)',
-          }}
-        >
-          {stats.map((stat) => (
-            <StatItem
-              key={stat.label}
-              value={stat.value}
-              label={stat.label}
-              isInView={isInView}
-            />
-          ))}
-        </motion.div>
       </div>
     </section>
   )

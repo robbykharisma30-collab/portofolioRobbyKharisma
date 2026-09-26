@@ -18,13 +18,6 @@ const data = {
     availability: 'Available for Freelance & Collaboration',
   },
 
-  stats: [
-    { value: '50+', label: 'Projects Completed' },
-    { value: '100K+', label: 'Content Views' },
-    { value: '20+', label: 'Brand Collaborations' },
-    { value: '3+', label: 'Years Experience' },
-  ],
-
   projects: [
     {
       title: 'Lomba Nestle Mom and Moo Satu Hati Dua Peran',
