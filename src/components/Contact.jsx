@@ -5,38 +5,63 @@ import TextReveal from './TextReveal'
 
 const socials = data.socials
 
+// Paste the endpoint from your Formspree form settings here,
+// e.g. https://formspree.io/f/xabcdefgh
+const FORMSPREE_ENDPOINT = ''
+
 export default function Contact() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
-  const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
   const { email, location, availability } = data.personal
+
+  const buildMailto = () => {
+    const subject = `Portfolio Contact from ${formData.name}`
+    const body = `${formData.message}\n\nFrom: ${formData.name} (${formData.email})`
+    return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  }
+
+  const postToFormspree = async () => {
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      return res.ok
+    } catch {
+      return false
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSending(true)
-    setError('')
+    setNotice('')
 
-    try {
-      const res = await fetch('https://formspree.io/f/YOUR_ENDPOINT', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-      if (res.ok) {
-        setSent(true)
-        setFormData({ name: '', email: '', message: '' })
-      } else {
-        setError('Something went wrong. Please try again.')
-      }
-    } catch {
-      window.location.href = `mailto:${email}?subject=Portfolio Contact from ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(formData.message + '\n\nFrom: ' + formData.name + ' (' + formData.email + ')')}`
+    const openMailClient = (message) => {
+      setNotice(message)
+      window.location.href = buildMailto()
+    }
+
+    if (!FORMSPREE_ENDPOINT) {
+      openMailClient('Opening your email app to send this message...')
+      setSending(false)
+      return
+    }
+
+    if (await postToFormspree()) {
+      setSent(true)
+      setFormData({ name: '', email: '', message: '' })
+      setTimeout(() => setSent(false), 4000)
+    } else {
+      openMailClient('Could not send automatically, opening your email app instead...')
     }
 
     setSending(false)
-    setTimeout(() => setSent(false), 4000)
   }
 
   const inputStyle = {
@@ -169,8 +194,8 @@ export default function Contact() {
                 onBlur={inputBlur}
               />
             </div>
-            {error && (
-              <p style={{ color: '#ef4444', fontSize: '0.9rem', marginBottom: '1rem' }}>{error}</p>
+            {notice && (
+              <p style={{ color: '#f59e0b', fontSize: '0.9rem', marginBottom: '1rem' }}>{notice}</p>
             )}
             <motion.button
               type="submit"
