@@ -81,6 +81,10 @@ export default function About() {
                 style={{
                   position: 'absolute',
                   bottom: '1.2rem',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: 'calc(100% - 2.4rem)',
+                  textAlign: 'center',
                   color: '#94a3b8',
                   fontSize: '0.85rem',
                   fontWeight: 500,
