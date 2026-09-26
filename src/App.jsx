@@ -33,20 +33,31 @@ function SectionDivider({ flip }) {
 
 export default function App() {
   const [loading, setLoading] = useState(true)
-  const [lenisReady, setLenisReady] = useState(false)
 
   useEffect(() => {
-    if (!loading) {
-      import('lenis').then(({ default: Lenis }) => {
-        const lenis = new Lenis({
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          wheelMultiplier: 1,
-        })
-        const raf = (time) => { lenis.raf(time); requestAnimationFrame(raf) }
-        requestAnimationFrame(raf)
-        setLenisReady(true)
+    if (loading) return
+    let rafId
+    let lenis
+    let cancelled = false
+
+    import('lenis').then(({ default: Lenis }) => {
+      if (cancelled) return
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        wheelMultiplier: 1,
       })
+      const raf = (time) => {
+        lenis.raf(time)
+        rafId = requestAnimationFrame(raf)
+      }
+      rafId = requestAnimationFrame(raf)
+    })
+
+    return () => {
+      cancelled = true
+      cancelAnimationFrame(rafId)
+      lenis?.destroy()
     }
   }, [loading])
 

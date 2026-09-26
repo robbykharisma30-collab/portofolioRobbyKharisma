@@ -260,6 +260,7 @@ export default function CinematicBackground() {
 
     return () => {
       cancelAnimationFrame(animId)
+      document.removeEventListener('visibilitychange', onVisibility)
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', onMouse)
     }
