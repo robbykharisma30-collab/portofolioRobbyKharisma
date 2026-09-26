@@ -5,9 +5,7 @@ import TextReveal from './TextReveal'
 
 const socials = data.socials
 
-// Paste the endpoint from your Formspree form settings here,
-// e.g. https://formspree.io/f/xabcdefgh
-const FORMSPREE_ENDPOINT = ''
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xkjgqgpl'
 
 export default function Contact() {
   const ref = useRef(null)
