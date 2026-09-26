@@ -8,6 +8,61 @@ import TextReveal from './TextReveal'
 
 const projects = data.projects
 
+const THUMB_SD_MAX = 45
+const THUMB_CENTER_MIN = 140
+const THUMB_SAMPLE_TARGET = 20000
+
+const isPlaceholderThumb = (img) => {
+  const w = img.naturalWidth
+  const h = img.naturalHeight
+  if (!w || !h) return false
+  try {
+    const canvas = document.createElement('canvas')
+    canvas.width = w
+    canvas.height = h
+    const ctx = canvas.getContext('2d')
+    ctx.drawImage(img, 0, 0)
+    const { data } = ctx.getImageData(0, 0, w, h)
+    const step = Math.max(1, Math.round(Math.sqrt((w * h) / THUMB_SAMPLE_TARGET)))
+    const x0 = w * 0.35
+    const x1 = w * 0.65
+    const y0 = h * 0.35
+    const y1 = h * 0.65
+    let sum = 0
+    let sumSq = 0
+    let count = 0
+    let centerSum = 0
+    let centerCount = 0
+    for (let y = 0; y < h; y += step) {
+      for (let x = 0; x < w; x += step) {
+        const i = (y * w + x) * 4
+        const lum = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]
+        sum += lum
+        sumSq += lum * lum
+        count++
+        if (x > x0 && x < x1 && y > y0 && y < y1) {
+          centerSum += lum
+          centerCount++
+        }
+      }
+    }
+    const mean = sum / count
+    const sd = Math.sqrt(Math.max(0, sumSq / count - mean * mean))
+    return sd < THUMB_SD_MAX && centerSum / centerCount > THUMB_CENTER_MIN
+  } catch {
+    return false
+  }
+}
+
+const stepDownOrHide = (img, videoId) => {
+  if (img.dataset.res === 'mq') {
+    img.style.display = 'none'
+    return
+  }
+  img.dataset.res = 'mq'
+  img.src = `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`
+}
+
 const cardVariants = {
   hidden: { opacity: 0, y: 60 },
   visible: (i) => ({
@@ -91,11 +146,34 @@ export default function Projects() {
                         overflow: 'hidden',
                       }}
                     >
+                      {project.videoId && (
+                        <img
+                          src={`https://i.ytimg.com/vi/${project.videoId}/maxresdefault.jpg`}
+                          alt={project.title}
+                          loading="lazy"
+                          crossOrigin="anonymous"
+                          onLoad={(e) => {
+                            if (isPlaceholderThumb(e.currentTarget)) {
+                              stepDownOrHide(e.currentTarget, project.videoId)
+                            }
+                          }}
+                          onError={(e) => stepDownOrHide(e.currentTarget, project.videoId)}
+                          style={{
+                            position: 'absolute',
+                            inset: 0,
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      )}
                       <div
                         style={{
                           position: 'absolute',
                           inset: 0,
-                          background: `radial-gradient(circle at 30% 50%, ${project.accent}15, transparent 70%)`,
+                          background: project.videoId
+                            ? 'linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%)'
+                            : `radial-gradient(circle at 30% 50%, ${project.accent}15, transparent 70%)`,
                         }}
                       />
                       <div

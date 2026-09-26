@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
 import Projects from './components/Projects'
+import Certificates from './components/Certificates'
 import Skills from './components/Skills'
 import Testimonials from './components/Testimonials'
 import Contact from './components/Contact'
@@ -73,6 +74,8 @@ export default function App() {
             <SectionDivider flip />
             <Projects />
             <SectionDivider />
+            <Certificates />
+            <SectionDivider flip />
             <Skills />
             <SectionDivider flip />
             <Testimonials />

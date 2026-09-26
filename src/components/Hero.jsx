@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import data from '../data'
 
-const roles = ['Digital Storyteller', 'Video Creator', 'Brand Strategist', 'Content Wizard', 'Motion Designer']
-
 const floatAnimation = {
   initial: { opacity: 0, y: 60 },
   animate: (i) => ({
@@ -42,8 +40,8 @@ function useTypewriter(words) {
 }
 
 export default function Hero() {
+  const { tagline, headline, subheadline, roles } = data.personal
   const typedText = useTypewriter(roles)
-  const { tagline, headline, subheadline } = data.personal
 
   return (
     <section

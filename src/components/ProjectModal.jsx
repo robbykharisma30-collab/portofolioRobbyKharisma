@@ -43,59 +43,74 @@ export default function ProjectModal({ projectIndex, onClose }) {
               cursor: 'default',
             }}
           >
-            <div
-              style={{
-                height: 280,
-                background: project.thumbGradient,
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: `radial-gradient(circle at 30% 50%, ${project.accent}20, transparent 70%)`,
-                }}
-              />
-              <div
-                style={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: '50%',
-                  background: `${project.accent}30`,
-                  border: `2px solid ${project.accent}50`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '2rem',
-                  position: 'relative',
-                  zIndex: 1,
-                  backdropFilter: 'blur(4px)',
-                }}
-              >
-                ▶
-              </div>
-              <span
-                style={{
-                  position: 'absolute',
-                  top: '1.2rem',
-                  left: '1.2rem',
-                  padding: '0.3rem 0.8rem',
-                  borderRadius: 6,
-                  background: `${project.accent}30`,
-                  backdropFilter: 'blur(4px)',
-                  fontSize: '0.75rem',
-                  color: project.accent,
-                  fontWeight: 600,
-                  letterSpacing: '0.5px',
-                  textTransform: 'uppercase',
-                }}
-              >
-                {project.category}
-              </span>
+            <div style={{ position: 'relative' }}>
+              {project.videoId ? (
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${project.videoId}?rel=0`}
+                  title={project.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  loading="lazy"
+                  style={{ width: '100%', aspectRatio: '16 / 9', border: 'none', display: 'block' }}
+                />
+              ) : (
+                <div
+                  style={{
+                    height: 280,
+                    background: project.thumbGradient,
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: `radial-gradient(circle at 30% 50%, ${project.accent}20, transparent 70%)`,
+                    }}
+                  />
+                  <div
+                    style={{
+                      width: 80,
+                      height: 80,
+                      borderRadius: '50%',
+                      background: `${project.accent}30`,
+                      border: `2px solid ${project.accent}50`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '2rem',
+                      position: 'relative',
+                      zIndex: 1,
+                      backdropFilter: 'blur(4px)',
+                    }}
+                  >
+                    ▶
+                  </div>
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '1.2rem',
+                      left: '1.2rem',
+                      padding: '0.3rem 0.8rem',
+                      borderRadius: 6,
+                      background: `${project.accent}30`,
+                      backdropFilter: 'blur(4px)',
+                      fontSize: '0.75rem',
+                      color: project.accent,
+                      fontWeight: 600,
+                      letterSpacing: '0.5px',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {project.category}
+                  </span>
+                </div>
+              )}
               <button
                 onClick={onClose}
                 style={{
