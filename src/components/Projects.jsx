@@ -11,31 +11,34 @@ const projects = data.projects
 const THUMB_SD_MAX = 45
 const THUMB_CENTER_MIN = 140
 const THUMB_SAMPLE_TARGET = 20000
+const THUMB_ANALYSIS_WIDTH = 160
 
 const isPlaceholderThumb = (img) => {
   const w = img.naturalWidth
   const h = img.naturalHeight
   if (!w || !h) return false
   try {
+    const tw = THUMB_ANALYSIS_WIDTH
+    const th = Math.max(1, Math.round((h / w) * tw))
     const canvas = document.createElement('canvas')
-    canvas.width = w
-    canvas.height = h
+    canvas.width = tw
+    canvas.height = th
     const ctx = canvas.getContext('2d')
-    ctx.drawImage(img, 0, 0)
-    const { data } = ctx.getImageData(0, 0, w, h)
-    const step = Math.max(1, Math.round(Math.sqrt((w * h) / THUMB_SAMPLE_TARGET)))
-    const x0 = w * 0.35
-    const x1 = w * 0.65
-    const y0 = h * 0.35
-    const y1 = h * 0.65
+    ctx.drawImage(img, 0, 0, tw, th)
+    const { data } = ctx.getImageData(0, 0, tw, th)
+    const step = Math.max(1, Math.round(Math.sqrt((tw * th) / THUMB_SAMPLE_TARGET)))
+    const x0 = tw * 0.35
+    const x1 = tw * 0.65
+    const y0 = th * 0.35
+    const y1 = th * 0.65
     let sum = 0
     let sumSq = 0
     let count = 0
     let centerSum = 0
     let centerCount = 0
-    for (let y = 0; y < h; y += step) {
-      for (let x = 0; x < w; x += step) {
-        const i = (y * w + x) * 4
+    for (let y = 0; y < th; y += step) {
+      for (let x = 0; x < tw; x += step) {
+        const i = (y * tw + x) * 4
         const lum = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]
         sum += lum
         sumSq += lum * lum

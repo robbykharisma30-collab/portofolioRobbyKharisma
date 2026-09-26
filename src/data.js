@@ -240,7 +240,6 @@ const data = {
   ],
 
   socials: [
-    { name: 'YouTube', icon: '📺', href: 'https://www.youtube.com/@Ribo000-h6q/streams', handle: '@Ribo000' },
     { name: 'Instagram', icon: '📸', href: 'https://www.instagram.com/_obbii_/', handle: '@_obbii_' },
     { name: 'Email', icon: '✉️', href: 'mailto:Robbykharisma30@gmail.com', handle: 'Robbykharisma30@gmail.com' },
   ],

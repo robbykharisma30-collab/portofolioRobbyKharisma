@@ -1,19 +1,8 @@
-import { useEffect, useState } from 'react'
-import { motion, useSpring } from 'framer-motion'
+import { motion, useScroll, useSpring } from 'framer-motion'
 
 export default function ScrollProgress() {
-  const [progress, setProgress] = useState(0)
-  const scaleX = useSpring(progress, { stiffness: 100, damping: 30 })
-
-  useEffect(() => {
-    const onScroll = () => {
-      const scrollTop = window.scrollY
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      setProgress(docHeight > 0 ? scrollTop / docHeight : 0)
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 })
 
   return (
     <motion.div

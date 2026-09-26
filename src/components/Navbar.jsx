@@ -17,7 +17,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
-    window.addEventListener('scroll', onScroll)
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -36,7 +36,7 @@ export default function Navbar() {
         background: scrolled ? 'rgba(10,10,15,0.85)' : 'transparent',
         backdropFilter: scrolled ? 'blur(20px)' : 'none',
         borderBottom: scrolled ? '1px solid rgba(255,255,255,0.05)' : 'none',
-        transition: 'all 0.3s ease',
+        transition: 'padding 0.3s ease, background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease',
       }}
     >
       <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

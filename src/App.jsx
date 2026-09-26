@@ -71,11 +71,14 @@ export default function App() {
         )}
       </AnimatePresence>
 
+      <div style={{ visibility: loading ? 'hidden' : 'visible' }}>
+        <CinematicBackground />
+      </div>
+
       {!loading && (
         <>
           <ScrollProgress />
           <CustomCursor />
-          <CinematicBackground />
           <Navbar />
           <SocialSidebar />
           <main>
