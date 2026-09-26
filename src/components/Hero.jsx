@@ -53,7 +53,7 @@ export default function Hero() {
         justifyContent: 'center',
         position: 'relative',
         overflow: 'hidden',
-        padding: '2rem',
+        padding: 'var(--hero-pad)',
       }}
     >
       <div

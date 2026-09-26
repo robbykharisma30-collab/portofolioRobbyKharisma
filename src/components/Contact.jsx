@@ -121,7 +121,7 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.2 }}
             onSubmit={handleSubmit}
             style={{
-              padding: '2.5rem',
+              padding: 'var(--card-pad)',
               borderRadius: 20,
               background: 'rgba(255,255,255,0.02)',
               border: '1px solid rgba(255,255,255,0.06)',
@@ -227,7 +227,7 @@ export default function Contact() {
           >
             <div
               style={{
-                padding: '2.5rem',
+                padding: 'var(--card-pad)',
                 borderRadius: 20,
                 background: 'rgba(255,255,255,0.02)',
                 border: '1px solid rgba(255,255,255,0.06)',
@@ -261,7 +261,7 @@ export default function Contact() {
 
             <div
               style={{
-                padding: '2.5rem',
+                padding: 'var(--card-pad)',
                 borderRadius: 20,
                 background: 'rgba(255,255,255,0.02)',
                 border: '1px solid rgba(255,255,255,0.06)',

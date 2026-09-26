@@ -23,7 +23,7 @@ export default function ProjectModal({ projectIndex, onClose }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '2rem',
+            padding: 'var(--modal-pad)',
             cursor: 'pointer',
           }}
         >
@@ -135,7 +135,7 @@ export default function ProjectModal({ projectIndex, onClose }) {
                 ✕
               </button>
             </div>
-            <div style={{ padding: '2rem' }}>
+            <div style={{ padding: 'var(--card-pad)' }}>
               <h2 style={{ fontSize: '1.6rem', fontWeight: 800, marginBottom: '1rem' }}>
                 {project.title}
               </h2>

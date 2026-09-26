@@ -33,7 +33,7 @@ export default function CertificateModal({ cert, onClose }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '2rem',
+            padding: 'var(--modal-pad)',
             cursor: 'pointer',
           }}
         >

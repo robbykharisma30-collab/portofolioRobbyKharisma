@@ -50,7 +50,7 @@ export default function Testimonials() {
             >
               <TiltCard
                 style={{
-                  padding: '2rem',
+                  padding: 'var(--card-pad)',
                   borderRadius: 20,
                   background: 'rgba(255,255,255,0.02)',
                   border: '1px solid rgba(255,255,255,0.06)',
